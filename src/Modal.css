@@ -1,26 +1,19 @@
 .close {
   color: #aaaaaa;
-  float: left; 
+  float: left;
   font-size: 25px;
   font-weight: bold;
 }
-.close:hover, 
+.close:hover,
 .close:focus {
-   color: #000;
-   text-decoration: none;
-   cursor: pointer;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+.dis {
+  width: 25%;
+  display: flex;
+  float: left;
+}
 

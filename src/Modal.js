@@ -1,42 +1,30 @@
 import Modal from "react-modal";
 
-
 import React, { useState } from "react";
 import "./Modal.css";
 import View from "./View";
 
-import {
-  Dropdown,
-  Popup,
-  Button,
-  Form,
-  Divider,
-  
-} from "semantic-ui-react";
-
+import { Dropdown, Popup, Button, Form, Divider } from "semantic-ui-react";
 
 Modal.setAppElement("#root");
 const style = {
   content: {
-    border: '0',
-    left: '40%',
-    top: '20%', 
-    
-    width: '30%',
-    height: '30%'
-   
-  }
+    border: "0",
+    left: "40%",
+    top: "20%",
+
+    width: "30%",
+    height: "30%",
+  },
 };
-const style1= {
+const style1 = {
   content: {
-    width: '50%',
-    height: '50%',
-    left: '25%',
-    top: '10%'
-  }
+    width: "50%",
+    height: "50%",
+    left: "25%",
+    top: "10%",
+  },
 };
-
-
 
 const Modalcall = (props) => {
   const [modalIsOpen, setModalIsopen] = useState(false);
@@ -54,21 +42,21 @@ const Modalcall = (props) => {
       text: "Pushup",
       value: "Pushup",
       ExerciseName: "Pushup",
-      scr: "https://tread.imfast.io/aman/pushup.mp4" ,
+      scr: "https://tread.imfast.io/aman/pushup.mp4",
     },
     {
       key: "Plank",
       text: "Plank",
       value: "Plank",
       ExerciseName: "Plank",
-      src: "https://tread.imfast.io/aman/plank.mp4" ,
+      src: "https://tread.imfast.io/aman/plank.mp4",
     },
     {
       key: "Lunges",
       text: "Lunges",
       value: "Lunges",
       ExerciseName: "Lunges",
-      src: "https://tread.imfast.io/aman/lunges.mp4" ,
+      src: "https://tread.imfast.io/aman/lunges.mp4",
     },
     {
       key: "Squats",
@@ -76,7 +64,6 @@ const Modalcall = (props) => {
       value: "Squats",
       ExerciseName: "Squats",
       src: "https://tread.imfast.io/aman/bodyweight_squats.mp4",
-      
     },
     {
       key: "Jumping Jacks",
@@ -84,7 +71,6 @@ const Modalcall = (props) => {
       value: "Jumping Jacks",
       ExerciseName: "Jumping Jacks",
       src: "https://media.giphy.com/media/2tKBrBj4pQJlzWTa81/giphy.mp4",
-      
     },
   ];
 
@@ -106,13 +92,11 @@ const Modalcall = (props) => {
     console.log(data.value);
 
     for (var i = 0; i < 5; i++) {
-      if(exercise[i].key===data.value){
-        setVideo(exercise[i].src)
+      if (exercise[i].key === data.value) {
+        setVideo(exercise[i].src);
         console.log(exercise[i].src);
       }
-    } 
-    
-    
+    }
   };
 
   const deleteItem = (id) => {
@@ -124,19 +108,23 @@ const Modalcall = (props) => {
   };
 
   return (
-    <div >
-      
+    <div>
       <Popup
-        trigger={<Button icon="add" onClick={() => setModalIsopen(true)} />}
+        trigger={
+          <Button
+            icon="add"
+            size="massive"
+            onClick={() => setModalIsopen(true)}
+          />
+        }
         basic
       />
 
-      <form >
+      <form>
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={() => setModalIsopen(false)}
           style={style1}
-          
         >
           <Button icon="close" onClick={() => setModalIsopen(false)}></Button>
 
@@ -145,7 +133,6 @@ const Modalcall = (props) => {
             fluid
             selection
             options={exercise}
-            
             value={name}
             onChange={handle}
             required
@@ -161,9 +148,7 @@ const Modalcall = (props) => {
             isOpen={modalIsOpen2}
             onRequestClose={() => setModalIsopen2(false)}
             style={style}
-
           >
-
             <iframe
               src={video}
               frameBorder="0"
@@ -180,21 +165,18 @@ const Modalcall = (props) => {
                 control="input"
                 value={reps}
                 onChange={(e) => setReps(e.target.value)}
-                required
               />
               <Form.Field
                 label="Time (s)"
                 control="input"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                required
               />
               <Form.Field
                 label="Rest (s)"
                 control="input"
                 value={rest}
                 onChange={(e) => setRest(e.target.value)}
-                required
               />
             </Form.Group>
             <Button type="submit" onClick={listOfItems}>
@@ -209,7 +191,9 @@ const Modalcall = (props) => {
       <ol>
         {Items.map((item, index) => {
           return (
-            <View key={index} id={index} data={item} onSelect={deleteItem} />
+            <div className="dis">
+              <View key={index} id={index} data={item} onSelect={deleteItem} />
+            </div>
           );
         })}
       </ol>
