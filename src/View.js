@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Image, Grid } from "semantic-ui-react";
+import { Card, Button, Image} from "semantic-ui-react";
 
 import "./Modal.css";
 

@@ -42,7 +42,7 @@ const Modalcall = (props) => {
       text: "Pushup",
       value: "Pushup",
       ExerciseName: "Pushup",
-      scr: "https://tread.imfast.io/aman/pushup.mp4",
+      src: "https://tread.imfast.io/aman/pushup.mp4",
     },
     {
       key: "Plank",
@@ -90,7 +90,7 @@ const Modalcall = (props) => {
   const handle = (e, data) => {
     setName(data.value);
     console.log(data.value);
-
+    
     for (var i = 0; i < 5; i++) {
       if (exercise[i].key === data.value) {
         setVideo(exercise[i].src);
@@ -126,22 +126,24 @@ const Modalcall = (props) => {
           onRequestClose={() => setModalIsopen(false)}
           style={style1}
         >
-          <Button icon="close" onClick={() => setModalIsopen(false)}></Button>
+          <Button icon="close"  onClick={() => setModalIsopen(false)}></Button>
 
           <Dropdown
             placeholder="Select"
             fluid
+            search
             selection
             options={exercise}
             value={name}
             onChange={handle}
-            required
+            
           />
 
           <Button
             icon="video play"
             type="submit"
             onClick={() => setModalIsopen2(true)}
+            
           ></Button>
 
           <Modal
