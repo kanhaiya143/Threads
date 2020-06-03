@@ -11,9 +11,11 @@
   cursor: pointer;
 }
 
-.dis {
-  width: 25%;
+.view {
+  width: auto;
+  margin:20px;
   display: flex;
   float: left;
+  text-align: center;
 }
 

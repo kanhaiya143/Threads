@@ -191,7 +191,7 @@ const Modalcall = (props) => {
       <ol>
         {Items.map((item, index) => {
           return (
-            <div className="dis">
+            <div className="view">
               <View key={index} id={index} data={item} onSelect={deleteItem} />
             </div>
           );
