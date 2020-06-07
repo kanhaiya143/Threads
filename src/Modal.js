@@ -5,6 +5,8 @@ import "./Modal.css";
 import View from "./View";
 
 import { Dropdown, Popup, Button, Form, Divider } from "semantic-ui-react";
+import GridList from "@material-ui/core/GridList";
+import DraggableList from "react-draggable-lists";
 
 Modal.setAppElement("#root");
 const style = {
@@ -34,7 +36,9 @@ const Modalcall = (props) => {
   const [rest, setRest] = useState("");
   const [name, setName] = useState("");
   const [video, setVideo] = useState("");
-  const [Items, addList] = useState([]);
+  
+  const [noUpdate, setUpdate] = useState(false);
+  const [ID, passingId] = useState();
 
   const exercise = [
     {
@@ -73,24 +77,87 @@ const Modalcall = (props) => {
       src: "https://media.giphy.com/media/2tKBrBj4pQJlzWTa81/giphy.mp4",
     },
   ];
-
-  const listOfItems = () => {
-    setModalIsopen(false);
-
-    addList((oldItems) => {
-      return [...oldItems, { reps, time, rest, name }];
-    });
-
+  const [Items, addList] = useState([]);
+  const openModal = () => {
+    setModalIsopen(true);
+    setUpdate(true);
     setReps("");
     setTime("");
     setRest("");
     setName("");
   };
 
+  const twomethod = () => {
+    openModal();
+    setUpdate(true);
+  };
+
+  const callEdit = (id) => {
+    setModalIsopen(true);
+
+    //console.log(Items[id]);
+    setUpdate(false);
+    passingId(id);
+    // addList((oldItems) => {
+
+    //  // oldItems.splice(id,1);
+    //   return [...oldItems, { reps, time, rest, name }];
+
+    // });
+  };
+
+  const callCopy = (id) => {
+    console.log(Items[id]);
+    Items.splice(id + 1, 0, Items[id]);
+    addList([...Items]);
+    // addList((oldItems) => {
+    //    oldItems.splice(id+1,0,Items[id]);
+
+    //    return [...oldItems];
+    //    //return [...oldItems, oldItems[id]];
+    // });
+  };
+
+  const listOfItems = () => {
+    setModalIsopen(false);
+
+    if (noUpdate === true) {
+      addList((oldItems) => {
+        return [...oldItems, { reps, time, rest, name }];
+      });
+
+      setReps("");
+      setTime("");
+      setRest("");
+      setName("");
+    } else {
+      //Items.splice(ID,1);
+      Items.splice(ID, 1, { reps, time, rest, name });
+      addList([...Items]);
+      setReps("");
+      setTime("");
+      setRest("");
+      setName("");
+      // addList((oldItems) => {
+      //   // oldItems.splice(ID,0,oldItems[ID]);
+      //   return [...oldItems,{ reps, time, rest, name }];
+      //   // return [...oldItems, oldItems[id]];
+      // });
+      // addList((oldItems) => {
+      //    deleteItem(ID);
+      //   // oldItems.splice(ID,0,oldItems[ID]);
+      //   return [...oldItems];
+      //   // return [...oldItems, oldItems[id]];
+      // });
+
+      setUpdate(true);
+    }
+  };
+
   const handle = (e, data) => {
     setName(data.value);
     console.log(data.value);
-    
+
     for (var i = 0; i < 5; i++) {
       if (exercise[i].key === data.value) {
         setVideo(exercise[i].src);
@@ -98,6 +165,7 @@ const Modalcall = (props) => {
       }
     }
   };
+  
 
   const deleteItem = (id) => {
     addList((oldItems) => {
@@ -110,13 +178,7 @@ const Modalcall = (props) => {
   return (
     <div>
       <Popup
-        trigger={
-          <Button
-            icon="add"
-            size="massive"
-            onClick={() => setModalIsopen(true)}
-          />
-        }
+        trigger={<Button icon="add" size="massive" onClick={twomethod} />}
         basic
       />
 
@@ -126,7 +188,7 @@ const Modalcall = (props) => {
           onRequestClose={() => setModalIsopen(false)}
           style={style1}
         >
-          <Button icon="close"  onClick={() => setModalIsopen(false)}></Button>
+          <Button icon="close" onClick={() => setModalIsopen(false)}></Button>
 
           <Dropdown
             placeholder="Select"
@@ -136,14 +198,12 @@ const Modalcall = (props) => {
             options={exercise}
             value={name}
             onChange={handle}
-            
           />
 
           <Button
             icon="video play"
             type="submit"
             onClick={() => setModalIsopen2(true)}
-            
           ></Button>
 
           <Modal
@@ -191,13 +251,58 @@ const Modalcall = (props) => {
       </form>
 
       <ol>
-        {Items.map((item, index) => {
-          return (
-            <div className="view">
-              <View key={index} id={index} data={item} onSelect={deleteItem} />
-            </div>
-          );
-        })}
+         <GridList spacing={15} cellHeight={400} cols="md">
+          {Items.map((item, index) => {
+            return (
+              <div className="view">
+                <View
+                  key={index}
+                  id={index}
+                  data={item}
+                  onSelect={deleteItem}
+                  onEdit={callEdit}
+                  onCopy={callCopy}
+                />
+              </div>
+            );
+          })}
+        </GridList> 
+         
+        {/* <DraggableList  width={400} height={400} rowSize={4}> */}
+          {/* <div style={{ width: 300, height: 300, background: "green" }}>1</div>
+          <div style={{ width: 300, height: 300, background: "blue" }}>2</div>
+          <div style={{ width: 300, height: 300, background: "red" }}>3</div> */}
+       
+         
+         {/* { lx.map((item, index) => {
+            
+            return(
+              <div className="view">
+                <View
+                  key={index}
+                  id={index}
+                  data={item}
+                  onSelect={deleteItem}
+                  onEdit={callEdit}
+                  onCopy={callCopy}
+                />
+              </div>);
+           
+          })} */}
+          
+        {/* </DraggableList> */}
+
+        {/* {Items.map((item, index) => {
+                  return (
+                    
+                    <div className="view">
+                      
+                       
+                      <View key={index} id={index} data={item} onSelect={deleteItem} onEdit={callEdit} onCopy={callCopy} />
+                    
+                    </div>
+                  );
+                })} */}
       </ol>
     </div>
   );

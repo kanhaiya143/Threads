@@ -13,6 +13,13 @@ const View = (props) => {
           props.onSelect(props.id);
         }}
       ></Button>
+      <Button icon="edit" onClick={()=>{
+        props.onEdit(props.id);
+      }}></Button>
+
+      <Button icon="copy" onClick={()=>{
+        props.onCopy(props.id);
+      }}></Button>
 
       <Card>
         <Image
