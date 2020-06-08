@@ -6,7 +6,10 @@ import View from "./View";
 
 import { Dropdown, Popup, Button, Form, Divider } from "semantic-ui-react";
 import GridList from "@material-ui/core/GridList";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import DraggableList from "react-draggable-lists";
+import DragDrop from "./DragAndDrop";
 
 Modal.setAppElement("#root");
 const style = {
@@ -35,10 +38,13 @@ const Modalcall = (props) => {
   const [time, setTime] = useState("");
   const [rest, setRest] = useState("");
   const [name, setName] = useState("");
+  const [Items, addList] = useState([]);
   const [video, setVideo] = useState("");
   
   const [noUpdate, setUpdate] = useState(false);
   const [ID, passingId] = useState();
+   const [copyItems, setCopy]=useState([1,2,3]);
+
 
   const exercise = [
     {
@@ -77,7 +83,8 @@ const Modalcall = (props) => {
       src: "https://media.giphy.com/media/2tKBrBj4pQJlzWTa81/giphy.mp4",
     },
   ];
-  const [Items, addList] = useState([]);
+ 
+
   const openModal = () => {
     setModalIsopen(true);
     setUpdate(true);
@@ -86,36 +93,32 @@ const Modalcall = (props) => {
     setRest("");
     setName("");
   };
+  
 
   const twomethod = () => {
     openModal();
     setUpdate(true);
+    
+   // setCopy([1]);
   };
 
   const callEdit = (id) => {
-    setModalIsopen(true);
+    setReps(Items[id].reps);
+    setTime(Items[id].time);
+    setRest(Items[id].rest);
+    setName(Items[id].name);
 
-    //console.log(Items[id]);
+    setModalIsopen(true);
     setUpdate(false);
     passingId(id);
-    // addList((oldItems) => {
-
-    //  // oldItems.splice(id,1);
-    //   return [...oldItems, { reps, time, rest, name }];
-
-    // });
+   
   };
 
   const callCopy = (id) => {
     console.log(Items[id]);
     Items.splice(id + 1, 0, Items[id]);
     addList([...Items]);
-    // addList((oldItems) => {
-    //    oldItems.splice(id+1,0,Items[id]);
-
-    //    return [...oldItems];
-    //    //return [...oldItems, oldItems[id]];
-    // });
+    
   };
 
   const listOfItems = () => {
@@ -123,32 +126,22 @@ const Modalcall = (props) => {
 
     if (noUpdate === true) {
       addList((oldItems) => {
+        
         return [...oldItems, { reps, time, rest, name }];
       });
-
+  
+      
       setReps("");
       setTime("");
       setRest("");
       setName("");
     } else {
-      //Items.splice(ID,1);
       Items.splice(ID, 1, { reps, time, rest, name });
       addList([...Items]);
       setReps("");
       setTime("");
       setRest("");
       setName("");
-      // addList((oldItems) => {
-      //   // oldItems.splice(ID,0,oldItems[ID]);
-      //   return [...oldItems,{ reps, time, rest, name }];
-      //   // return [...oldItems, oldItems[id]];
-      // });
-      // addList((oldItems) => {
-      //    deleteItem(ID);
-      //   // oldItems.splice(ID,0,oldItems[ID]);
-      //   return [...oldItems];
-      //   // return [...oldItems, oldItems[id]];
-      // });
 
       setUpdate(true);
     }
@@ -174,6 +167,8 @@ const Modalcall = (props) => {
       });
     });
   };
+
+ 
 
   return (
     <div>
@@ -251,6 +246,7 @@ const Modalcall = (props) => {
       </form>
 
       <ol>
+      
          <GridList spacing={15} cellHeight={400} cols="md">
           {Items.map((item, index) => {
             return (
@@ -267,14 +263,15 @@ const Modalcall = (props) => {
             );
           })}
         </GridList> 
+        
+        
+        
+        
          
-        {/* <DraggableList  width={400} height={400} rowSize={4}> */}
-          {/* <div style={{ width: 300, height: 300, background: "green" }}>1</div>
-          <div style={{ width: 300, height: 300, background: "blue" }}>2</div>
-          <div style={{ width: 300, height: 300, background: "red" }}>3</div> */}
-       
+         <DraggableList  width={350} height={350} rowSize={4}> 
+           
          
-         {/* { lx.map((item, index) => {
+         {copyItems.map((item, index) => {
             
             return(
               <div className="view">
@@ -288,21 +285,11 @@ const Modalcall = (props) => {
                 />
               </div>);
            
-          })} */}
+          })} 
           
-        {/* </DraggableList> */}
+        </DraggableList> 
 
-        {/* {Items.map((item, index) => {
-                  return (
-                    
-                    <div className="view">
-                      
-                       
-                      <View key={index} id={index} data={item} onSelect={deleteItem} onEdit={callEdit} onCopy={callCopy} />
-                    
-                    </div>
-                  );
-                })} */}
+        
       </ol>
     </div>
   );
